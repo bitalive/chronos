@@ -6,8 +6,11 @@ import (
 )
 
 var (
-	cyclesPerNano uint64 = 2900 // Default for 2.9GHz, will be calibrated
-	tscOverhead   uint64 = 0    // Overhead of calling RDTSC
+	// cyclesPerNano is scaled by 1024 (<< 10) to maintain precision.
+	// 2048 roughly equals 2.0 GHz (a safe baseline for Server processors like Xeon/EPYC).
+	// This will be accurately calibrated during package init().
+	cyclesPerNano uint64 = 2048
+	tscOverhead   uint64 = 0 // Overhead of calling RDTSC
 )
 
 func init() {
