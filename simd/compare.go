@@ -1,6 +1,6 @@
 package simd
 
-// Equal returns true if a and b are equal using skeleton pattern for maximum inlining.
+// Equal returns true if a and b are equal.
 func Equal(a, b []byte) bool {
 	if len(a) != len(b) {
 		return false

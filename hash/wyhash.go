@@ -13,7 +13,7 @@ const (
 	wyp4 = 0x1d8e4e27c47d124f
 )
 
-// WyHash calculates a 64-bit hash with ultra-minimal skeleton for maximum inlining.
+// WyHash calculates a 64-bit hash.
 func WyHash(key []byte, seed uint64) uint64 {
 	if len(key) == 0 {
 		return seed ^ wyp0
@@ -21,7 +21,7 @@ func WyHash(key []byte, seed uint64) uint64 {
 	return wyHashNonEmpty(key, seed)
 }
 
-// Sum64String calculates WyHash for string keys with ultra-minimal skeleton.
+// Sum64String calculates WyHash for string keys.
 func Sum64String(key string, seed uint64) uint64 {
 	if len(key) == 0 {
 		return seed ^ wyp0

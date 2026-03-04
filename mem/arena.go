@@ -65,7 +65,6 @@ func NewArenaExt(capacity int, useHuge bool) *Arena {
 }
 
 // Alloc allocates size bytes from the arena with 8-byte alignment.
-// ARCHITECTURAL PURIFICATION: Ultra-minimal skeleton for maximum inlining.
 func (a *Arena) Alloc(size int) []byte {
 	sz := uintptr((size + 7) &^ 7)
 	if a.free+sz > a.end {
@@ -83,11 +82,10 @@ func (a *Arena) allocSlow(size int) []byte {
 	}
 	a.grow(size)
 	a.numAllocs++
-	// We call Alloc again, but this time it will hit the fast path because we grew the arena.
 	return a.Alloc(size)
 }
 
-// AllocAligned allocates size bytes with explicit alignment using skeleton pattern.
+// AllocAligned allocates size bytes with explicit alignment.
 func (a *Arena) AllocAligned(size int, alignment uintptr) []byte {
 	if size <= 0 {
 		return nil
@@ -169,7 +167,7 @@ func (a *Arena) Reset() {
 	}
 }
 
-// IntegrityHash computes an XXHash3 of all data currently allocated in the arena.
+// IntegrityHash computes a WyHash of all data currently allocated in the arena.
 // This is used for background verification and data integrity checks.
 func (a *Arena) IntegrityHash() uint64 {
 	var combined uint64
@@ -190,10 +188,8 @@ func (a *Arena) IntegrityHash() uint64 {
 
 		if len(target) > 0 {
 			res := hash.WyHash(target, seed)
-			// Combine with previous hash (simple XOR combination for simplicity)
-			// In full implementation, we might use a proper Merkle-Style or rolling hash
 			combined ^= res
-			seed = res // Use as seed for next segment chain
+			seed = res
 		}
 	}
 	return combined
