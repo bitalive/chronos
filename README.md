@@ -19,7 +19,6 @@ By completely bypassing the standard Go heap allocations, interface dispatch ove
 
 ## 🚀 Key Features
 
-*   **`sys/iouring`**: A zero-syscall `io_uring` polling backend utilizing batch submission and cache-line isolated buffers. Target: **10M+ operations/sec** per core without breaking a sweat.
 *   **`mem/arena`**: An off-heap mmap-backed Bump Allocator. Circumvents the Go Garbage Collector entirely, dropping allocation overhead from the typical `~40ns` down to **`< 3ns`**.
 *   **`hash/wyhash`**: Implementation of `WyHash` via ultra-minimal skeleton for maximum AST-inlining. Beats FNV-1a by 5x (running at **~3ns**).
 *   **`sync/time`**: A hardware-clock precision instrument utilizing `x86 TSC (Time Stamp Counter)` returning extreme accuracy with **`~6ns`** overhead (vs normal OS syscall time queries).
